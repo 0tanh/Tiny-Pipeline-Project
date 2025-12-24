@@ -62,3 +62,9 @@ async def last_name():
     return {
         "entry": r
     }
+
+@app.get("/render_healthcheck")
+async def render_health_check():
+    return {
+        "message":"still kicking"
+    }
