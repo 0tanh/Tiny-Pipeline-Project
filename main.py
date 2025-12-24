@@ -1,16 +1,15 @@
+import contextlib
+import os
+import sqlite3
+from datetime import datetime
+
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
-
-import time
-import sqlite3
-import os
-import contextlib
-
-from datetime import datetime
 
 db = os.getenv("DB")
 
 class UsernameFromReact(BaseModel):
+    """Basic class for test purposes"""
     name:str = Field(example="Betty_At_Home")
     
 
@@ -45,6 +44,7 @@ async def last_name():
             cur = connection.cursor()
             res = cur.execute("SELECT * FROM names ORDER BY time ASC")
             r = res.fetchone()
+            conn.commit()
     return {
         "entry": r
     }
