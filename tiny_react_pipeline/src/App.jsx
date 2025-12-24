@@ -16,7 +16,7 @@ function App() {
     </div>
       
     <div>
-      <OtherAPICall path="" whatIDo="Hello World"/>
+      <OtherAPICall path="hw" whatIDo="Hello World"/>
     </div>
     
     <div>
