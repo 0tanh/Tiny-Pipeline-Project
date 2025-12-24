@@ -16,11 +16,11 @@ function App() {
     </div>
       
     <div>
-      <OtherAPICall path="hw" whatIDo="Hello World"/>
+      <OtherAPICall host="" path="hw" whatIDo="Hello World"/>
     </div>
     
     <div>
-      <OtherAPICall path="lastName" whatIDo="LastName"/>
+      <OtherAPICall host="" path="lastName" whatIDo="LastName"/>
     </div>
 
       

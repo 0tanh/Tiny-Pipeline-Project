@@ -1,12 +1,12 @@
 import React, {useState} from "react"
 import axios from "axios";
 
-export default function OtherAPICall({path, whatIDo}){
+export default function OtherAPICall({host, path, whatIDo}){
     const [data,setData]=useState({});
     
     const handleSubmit = () => {
         console.log("I'm bein' pressed I am")
-        const p = `http://127.0.0.1:8000/${path}`
+        const p = `${host}/${path}`
         console.log(p)
         fetch(p)
         .then(
