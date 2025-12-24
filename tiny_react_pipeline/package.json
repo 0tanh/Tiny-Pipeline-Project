@@ -4,13 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "proxy": "http://localhost:8000",
+  "homepage": "https://0tanh.github.io/Tiny-Pipeline-Project/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^19.2.0",
