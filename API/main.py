@@ -7,7 +7,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-db = os.getenv("DB")
+
+#initilising environment variables
+db = os.getenv("TEST_DB")
+origins = os.getenv("ORIGINS")
 
 class UsernameFromReact(BaseModel):
     """Basic class for test purposes"""
@@ -15,12 +18,6 @@ class UsernameFromReact(BaseModel):
     
 
 app = FastAPI()
-
-#allowed origins in prod this should be stored in a .env
-origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:8000",
-]
 
 app.add_middleware(CORSMiddleware,
     allow_origins=origins,
@@ -40,7 +37,7 @@ async def new_username(username: UsernameFromReact):
     data = (
         {"name" : username.name, "time":datetime.now()}
         )
-    with contextlib.closing(sqlite3.connect("testingReactPassing.db")) as connection:
+    with contextlib.closing(sqlite3.connect(db)) as connection:
         with connection as conn:
             cur = connection.cursor()
             cur.execute("INSERT INTO 'names' VALUES (:name , :time)", data)
@@ -53,7 +50,7 @@ async def new_username(username: UsernameFromReact):
 
 @app.get("/lastName")
 async def last_name():
-    with contextlib.closing(sqlite3.connect("testingReactPassing.db")) as connection:
+    with contextlib.closing(sqlite3.connect(db)) as connection:
         with connection as conn:
             cur = connection.cursor()
             res = cur.execute("SELECT * FROM names ORDER BY time DESC")
