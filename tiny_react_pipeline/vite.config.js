@@ -14,7 +14,7 @@ export default defineConfig({
   plugins: [react()],
   base: "/Tiny-Pipeline-Project/",
   build:{
-    outDir:"./dist",
+    outDir:"../dist",
     emptyOutDir:true,
   },
   server: {
