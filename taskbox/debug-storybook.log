@@ -1,0 +1,11 @@
+[08:00:08.203] [ERROR] [38;2;241;97;97mError: Unable to find a usable package manager within NPM, PNPM, Yarn and Yarn 2[39m
+    at getPackageManagerType (/private/tmp/bunx-501-create-storybook@latest/node_modules/storybook/dist/_node-chunks/chunk-LLCTWVOB.js:14645:15)
+    at execute (/private/tmp/bunx-501-create-storybook@latest/node_modules/create-storybook/dist/_node-chunks/chunk-4PJVQNF4.js:532:125)
+    at execute (/private/tmp/bunx-501-create-storybook@latest/node_modules/create-storybook/dist/_node-chunks/chunk-4PJVQNF4.js:531:17)
+    at executePreflightCheck (/private/tmp/bunx-501-create-storybook@latest/node_modules/create-storybook/dist/_node-chunks/chunk-4PJVQNF4.js:553:90)
+    at doInitiate (/private/tmp/bunx-501-create-storybook@latest/node_modules/create-storybook/dist/_node-chunks/chunk-4PJVQNF4.js:2269:83)
+    at doInitiate (/private/tmp/bunx-501-create-storybook@latest/node_modules/create-storybook/dist/_node-chunks/chunk-4PJVQNF4.js:2266:27)
+    at <anonymous> (/private/tmp/bunx-501-create-storybook@latest/node_modules/create-storybook/dist/_node-chunks/chunk-4PJVQNF4.js:2322:26)
+    at <anonymous> (/private/tmp/bunx-501-create-storybook@latest/node_modules/create-storybook/dist/_node-chunks/chunk-4PJVQNF4.js:2321:5)
+    at withTelemetry (/private/tmp/bunx-501-create-storybook@latest/node_modules/storybook/dist/_node-chunks/chunk-PGCRO4IZ.js:209:18)
+    at withTelemetry (/private/tmp/bunx-501-create-storybook@latest/node_modules/storybook/dist/_node-chunks/chunk-PGCRO4IZ.js:202:30)
