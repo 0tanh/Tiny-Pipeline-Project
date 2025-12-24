@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+import axios from "axios";
 
 export default function OtherAPICall({path, whatIDo}){
     const [data,setData]=useState({});
@@ -15,6 +16,7 @@ export default function OtherAPICall({path, whatIDo}){
             })
         .then((data)=>{
             const r = JSON.stringify(data);
+            console.log(r)
             alert(r);
             })
     }

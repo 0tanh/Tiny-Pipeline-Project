@@ -19,7 +19,8 @@ app = FastAPI()
 #allowed origins in prod this should be stored in a .env
 origins = [
     "http://localhost:5173/",
-    "http://127.0.0.1:8000/"
+    "http://127.0.0.1:8000/",
+    "http://127.0.0.1:8000/new_name"
 ]
 
 app.add_middleware(CORSMiddleware,
@@ -56,7 +57,7 @@ async def last_name():
     with contextlib.closing(sqlite3.connect("testingReactPassing.db")) as connection:
         with connection as conn:
             cur = connection.cursor()
-            res = cur.execute("SELECT * FROM names ORDER BY time ASC")
+            res = cur.execute("SELECT * FROM names ORDER BY name DESC")
             r = res.fetchone()
             conn.commit()
     return {
