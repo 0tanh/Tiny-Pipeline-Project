@@ -13,6 +13,10 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 export default defineConfig({
   plugins: [react()],
   base: "/Tiny-Pipeline-Project/",
+  build:{
+    outDir:"./dist",
+    emptyOutDir:true,
+  },
   server: {
     proxy: {
       '/api': {
