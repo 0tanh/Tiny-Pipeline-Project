@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import NameAdder from './own_components/NameAdder'
+import OtherAPICall from './own_components/OtherAPICall'
 
 
 function App() {
@@ -14,6 +15,10 @@ function App() {
         <NameAdder />
       </div>
       
+    <div>
+      <OtherAPICall />
+    </div>
+
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
