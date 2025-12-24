@@ -5,10 +5,6 @@ export default function NameAdder(){
     
     const [name, setName] = useState('WOWO');
     
-    const handleChange = ({target}) => {setName(target.value)
-
-    }
-    
     const handleSubmit= (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -18,27 +14,24 @@ export default function NameAdder(){
             body:formData
         })
         .then((response)=>{
-            response.json();
-            alert(response);
-        
+            return response.json();
         }, alert('Womp Womp Fetch failed'))
         
         .then((result)=>{
             setName(result)
-            alert(`CONGRATS YOU HAVE RECEIVED
-                ${JSON.stringify(result)}`)}
-      )
+            alert(`CONGRATS YOU HAVE RECEIVED:
+                ${JSON.stringify(result)}`)})
     }
 
     return (
         <>
+          {/* <p>{n}</p> */}
           <form onSubmit={handleSubmit}>
             <input 
             id="nameInputBox"
             className="nameInputBox"
             type='text' 
-            value={name}
-            onChange={handleChange}/>
+            value={name}/>
             <button type="submit">add username</button>
         </form>
         </>

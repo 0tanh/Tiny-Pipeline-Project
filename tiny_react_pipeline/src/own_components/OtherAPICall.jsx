@@ -1,16 +1,21 @@
 import React, {useState} from "react"
 
-export default function OtherAPICall(){
+export default function OtherAPICall({path, whatIDo}){
     const [data,setData]=useState({});
     
     const handleSubmit = () => {
-        alert("I'm bein' pressed I am")
-        
-        fetch("http://127.0.0.1:8000/lastName")
+        console.log("I'm bein' pressed I am")
+        const p = `http://127.0.0.1:8000/${path}`
+        console.log(p)
+        fetch(p)
         .then(
             (response)=>{
-                r = JSON.stringify(response.json);
-                alert(r)
+                console.log("Response being parsed")
+                return response.json();
+            })
+        .then((data)=>{
+            const r = JSON.stringify(data);
+            alert(r);
             })
     }
     
@@ -18,7 +23,7 @@ export default function OtherAPICall(){
         <>
         <button
         onClick={handleSubmit}
-        >Press Me to Test An API Call</button>
+        >{whatIDo}</button>
         </>
     )
 }

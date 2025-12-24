@@ -4,6 +4,7 @@ import sqlite3
 from datetime import datetime
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 db = os.getenv("DB")
@@ -15,7 +16,20 @@ class UsernameFromReact(BaseModel):
 
 app = FastAPI()
 
-@app.get("/")
+#allowed origins in prod this should be stored in a .env
+origins = [
+    "http://localhost:5173/",
+    "http://127.0.0.1:8000/"
+]
+
+app.add_middleware(CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
+@app.get("/hw")
 async def root():
     return {"message": "Hello World"}
 
