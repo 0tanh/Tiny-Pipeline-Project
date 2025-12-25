@@ -2,15 +2,26 @@ import contextlib
 import os
 import sqlite3
 from datetime import datetime
+from functools import _lru_cache_wrapper
+from dotenv import load_dotenv
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+load_dotenv()
+# import config
+
+# @_lru_cache_wrapper
+# def get_settings():
+#     return config.Settings
+
+# get_settings()
 
 #initilising environment variables
-db = os.getenv("TEST_DB")
+db = os.getenv("DB")
 origins = os.getenv("ORIGINS")
+    
 
 class UsernameFromReact(BaseModel):
     """Basic class for test purposes"""
