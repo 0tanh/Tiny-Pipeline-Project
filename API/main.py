@@ -1,6 +1,6 @@
 import contextlib
 import os
-import sqlite3
+import psycopg2
 from datetime import datetime
 from functools import _lru_cache_wrapper
 from dotenv import load_dotenv
@@ -41,35 +41,35 @@ app.add_middleware(CORSMiddleware,
 async def root():
     return {"message": "Hello World"}
 
-@app.post("/new_name")
-async def new_username(username: UsernameFromReact):
-    print(username)
+# @app.post("/new_name")
+# async def new_username(username: UsernameFromReact):
+#     print(username)
     
-    data = (
-        {"name" : username.name, "time":datetime.now()}
-        )
-    with contextlib.closing(sqlite3.connect(db)) as connection:
-        with connection as conn:
-            cur = connection.cursor()
-            cur.execute("INSERT INTO 'names' VALUES (:name , :time)", data)
-            conn.commit()
+#     data = (
+#         {"name" : username.name, "time":datetime.now()}
+#         )
+#     with contextlib.closing(psycopg2.connect(database=db)) as connection:
+#         with connection as conn:
+#             cur = connection.cursor()
+#             cur.execute("INSERT INTO 'names' VALUES (:name , :time)", data)
+#             conn.commit()
     
-    return {
-        "time": datetime.now(),
-        "message":"db_insertion successful"
-    }
+#     return {
+#         "time": datetime.now(),
+#         "message":"db_insertion successful"
+#     }
 
-@app.get("/lastName")
-async def last_name():
-    with contextlib.closing(sqlite3.connect(db)) as connection:
-        with connection as conn:
-            cur = connection.cursor()
-            res = cur.execute("SELECT * FROM names ORDER BY time DESC")
-            r = res.fetchone()
-            conn.commit()
-    return {
-        "entry": r
-    }
+# @app.get("/lastName")
+# async def last_name():
+#     with contextlib.closing(psycopg2.connect(db)) as connection:
+#         with connection as conn:
+#             cur = connection.cursor()
+#             res = cur.execute("SELECT * FROM names ORDER BY time DESC")
+#             r = res.fetchone()
+#             conn.commit()
+#     return {
+#         "entry": r
+#     }
 
 @app.get("/render_healthcheck")
 async def render_health_check():
