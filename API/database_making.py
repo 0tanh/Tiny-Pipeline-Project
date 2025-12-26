@@ -24,33 +24,33 @@
 # Retrieved 2025-12-26, License - CC BY-SA 4.0
 
 
-
+from datetime import datetime
 import psycopg2
 from psycopg2 import sql
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 config = {
-    'user': 'Betty',
+    'user': 'bettypotgieter',
     'password': '',
     'host': '127.0.0.1',
-    'port': '8001',
-    'dbname': 'local_test'
+    'port': '5432',
+    'dbname': 'bettypotgieter'
 }
 
-new_database_name = 'local_db'
 
-try:
-    conn = psycopg2.connect(**config)
-    conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-except ConnectionRefusedError:
-    print("still not workign bitch")
+conn = psycopg2.connect(**config)
+conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+
 
 with conn.cursor() as cur:
-    cur.execute(sql.SQL("CREATE DATABASE {}").format(
-        sql.Identifier(new_database_name))
-    )
-
-print(f"Database '{new_database_name}' created successfully!")
+    # cur.execute(sql.SQL("""CREATE TABLE names (
+    #     name VARCHAR(50) UNIQUE NOT NULL, 
+    #     time VARCHAR(50) UNIQUE NOT NULL)"""))
+    t = str(datetime.now()).replace(" ","-").replace(":","_").strip()[0:40]
+    print(t)
+    cur.execute(sql.SQL(f"INSERT INTO names VALUES ('WOW', '{t}')"))
+    
+conn.commit()
 conn.close()
 
 
