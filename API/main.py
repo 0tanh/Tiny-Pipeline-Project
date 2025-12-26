@@ -11,11 +11,14 @@ from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+#sqlalchemy imports
+from sqlalchemy import create_engine, select, insert, delete, ForeignKey, String
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+
 #Psycopg imports
 import psycopg2
 from psycopg2 import sql
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-
 
 # FastAPI config
 # # import config
@@ -30,12 +33,30 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 load_dotenv()
 db = os.getenv("DB")
 origins = os.getenv("ORIGINS")
+
+#load sqlAlchemy engine:
+url = os.getenv("DB_URL")    
+config = {
+    'user': os.getenv('USER'),
+    'password': os.getenv('PASSWORD'),
+    'host': os.getenv('HOST'),
+    'port': os.getenv('PORT'),
+    'dbname': os.getenv('DBNAME')
+}
+
+if url:
+    to_connect = os.getenv("DB_URL")
+    engine = create_engine(to_connect)
+else:
+    to_connect = f"postgresql+psycopg2://{config['user']}:{config['password']}@{config['host']}:{config['port']}/{config['dbname']}"
+    engine = create_engine(to_connect)
     
+
 #Setting Up API Query BaseModels
 class UsernameFromReact(BaseModel):
     """Basic class for test purposes"""
     name:str = Field(example="Betty_At_Home")
-    
+  
 #Initialising Application
 app = FastAPI()
 
@@ -45,13 +66,6 @@ app.add_middleware(CORSMiddleware,
     allow_methods=["*"],
     allow_headers=["*"]
 )
-config = {
-    'user': os.getenv('USER'),
-    'password': os.getenv('PASSWORD'),
-    'host': os.getenv('HOST'),
-    'port': os.getenv('PORT'),
-    'dbname': os.getenv('DBNAME')
-}
 
 #API ROUTES
 @app.get("/")
@@ -76,7 +90,7 @@ async def new_username(username: UsernameFromReact):
         "time":datetime.now()
          }
     
-    with contextlib.closing(psycopg2.connect(**config)) as conn:
+    with contextlib.closing(engine.connect()) as conn:
         conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         cur = conn.cursor()
         cur.execute("INSERT INTO names VALUES (%(name)s , %(time)s)", data)
@@ -92,7 +106,7 @@ async def new_username(username: UsernameFromReact):
          description="Asks you for last added user and returns who that is",
          response_description="Tells you the last added user and when they joined")
 async def last_name():
-    with contextlib.closing(psycopg2.connect(**config)) as conn:
+    with contextlib.closing(engine.connect()) as conn:
         conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         cur = conn.cursor()
         cur.execute("""SELECT * FROM {table} ORDER BY {column} DESC
