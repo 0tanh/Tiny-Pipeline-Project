@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 #sqlalchemy imports
-from sqlalchemy import create_engine, select, insert, delete, ForeignKey, String
+from sqlalchemy import create_engine, select, insert, delete, ForeignKey, String, text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 #Psycopg imports
@@ -91,9 +91,8 @@ async def new_username(username: UsernameFromReact):
          }
     
     with contextlib.closing(engine.connect()) as conn:
-        conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-        cur = conn.cursor()
-        cur.execute("INSERT INTO names VALUES (%(name)s , %(time)s)", data)
+        t = text("INSERT INTO names VALUES (:name , :time)")
+        conn.execute(t, data)
         conn.commit()
     
     return {
@@ -107,13 +106,15 @@ async def new_username(username: UsernameFromReact):
          response_description="Tells you the last added user and when they joined")
 async def last_name():
     with contextlib.closing(engine.connect()) as conn:
-        conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-        cur = conn.cursor()
-        cur.execute("""SELECT * FROM {table} ORDER BY {column} DESC
+        # conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        # cur = conn.cursor()
+        t = text("""SELECT * FROM {table} ORDER BY {column} DESC
                     """.format(table="names", 
                                column="time"))
-        r = cur.fetchone()
+        _r = conn.execute(t)
+        r = _r.fetchone()
         conn.commit()
+    
     return {
         "name": r[0],
         "when": r[1]
