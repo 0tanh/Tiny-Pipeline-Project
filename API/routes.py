@@ -1,0 +1,103 @@
+#Standard Python imports
+from datetime import datetime
+import contextlib
+#FastAPI imports
+from fastapi import APIRouter
+from fastapi.responses import RedirectResponse
+from pydantic import BaseModel, Field
+
+#sqlalchemy imports
+from sqlalchemy import text
+# from sqlalchemy.orm import DeclarativeBase, Mroutered, mroutered_column, relationship
+
+from .database import engine
+
+router = APIRouter()
+
+#Setting Up API Query BaseModels
+class UsernameFromReact(BaseModel):
+    """Basic class for test purposes"""
+    name:str = Field(example="Betty_At_Home")
+
+#API ROUTES
+@router.get("/")
+async def entry():
+    return {"message":"Welcome"}
+
+@router.get("/hw",
+         summary="returns a hello world", 
+         description="sends a get request and returns a hello world",
+         response_description="Literally Just Hello World")
+async def hello_world():
+    return {"message": "Hello World"}
+
+@router.post("/new_name",
+          status_code=201,
+          summary="Adds a new user",
+          description="Adds a new user and when they joined to my silly little database",
+          response_description="Tells you that it was successful")
+async def new_username(username: UsernameFromReact):
+    data = {
+        "name" : username.name, 
+        "time":datetime.now()
+         }
+    
+    with contextlib.closing(engine.connect()) as conn:
+        t = text("INSERT INTO names VALUES (:name , :time)")
+        conn.execute(t, data)
+        conn.commit()
+    
+    return {
+        "time": datetime.now(),
+        "message":"db_insertion successful"
+    }
+
+@router.get("/lastName",
+         summary="Last added user",
+         description="Asks you for last added user and returns who that is",
+         response_description="Tells you the last added user and when they joined")
+async def last_name():
+    with contextlib.closing(engine.connect()) as conn:
+        # conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        # cur = conn.cursor()
+        t = text("""SELECT * FROM {table} ORDER BY {column} DESC
+                    """.format(table="names", 
+                               column="time"))
+        _r = conn.execute(t)
+        r = _r.fetchone()
+        conn.commit()
+    
+    return {
+        "name": r[0],
+        "when": r[1]
+    }
+
+@router.post("/is_it_there")
+async def is_it_there(username: UsernameFromReact):
+    with contextlib.closing(engine.connect()) as conn:
+        t = text("""
+                    SELECT {username} FROM {table}
+                    """.format(
+                        username=username.name,
+                        table="names"))
+        _r =conn.execute(t)
+        r = _r.fetchone()
+        conn.commit()
+    
+    return {
+        "response":r
+    }
+
+@router.get("/rr", 
+         response_class=RedirectResponse,
+         summary="Haha",
+         description="get rekt skrub",
+         response_description="call me and see hehe")
+async def rr():
+    return "https://youtu.be/dQw4w9WgXcQ"
+
+@router.get("/render_healthcheck")
+async def render_health_check():
+    return {
+        "message":"still kicking"
+    }
