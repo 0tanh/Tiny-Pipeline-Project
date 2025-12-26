@@ -123,14 +123,13 @@ async def last_name():
 @app.post("/is_it_there")
 async def is_it_there(username: UsernameFromReact):
     with contextlib.closing(psycopg2.connect(**config)) as conn:
-        conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-        cur = conn.cursor() 
-        cur.execute("""
+        t = text("""
                     SELECT {username} FROM {table}
                     """.format(
                         username=username.name,
                         table="names"))
-        r = cur.fetchone()
+        _r =conn.execute(t)
+        r = _r.fetchone()
         conn.commit()
 
 @app.get("/rr", 
