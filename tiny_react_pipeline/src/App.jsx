@@ -7,12 +7,11 @@ import OtherAPICall from './own_components/OtherAPICall'
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
     <div>
-      <NameAdder />
+      <NameAdder prod={true}/>
     </div>
       
     <div>

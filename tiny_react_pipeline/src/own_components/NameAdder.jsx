@@ -1,22 +1,20 @@
 import { useState, useEffect } from "react"
 import axios from "axios";
 
-export default function NameAdder(){
+export default function NameAdder({prod}){
     const validUserName = '\\w{5,10}';
     
-    const [name, setName] = useState('WOWO');
-    
-    const handleChange=()=> {setName(name)}
+    const [name, setName] = useState('put in a username');
 
     const handleSubmit= async (event) => {
         event.preventDefault();
         const data = {
             "name": name
         }
-        
+        const host_url = prod?"https://tiny-pipeline-project.onrender.com":"127.0.0.1"
         try {
             console.log(data);
-            const response = await axios.post("http://127.0.0.1:8000/new_name",data)
+            const response = await axios.post(`${host_url}/new_name`,data)
             alert(response.data)
         
         } catch (error) {
