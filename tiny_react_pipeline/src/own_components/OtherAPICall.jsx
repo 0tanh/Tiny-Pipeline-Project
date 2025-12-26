@@ -1,8 +1,8 @@
-import React, {useState} from "react"
-import axios from "axios";
+// import React, {useState} from "react"
+// import axios from "axios";
 
 export default function OtherAPICall({host, path, whatIDo}){
-    const [data,setData]=useState({});
+    // const [data,setData]=useState({});
     
     const handleSubmit = () => {
         console.log("I'm bein' pressed I am")
