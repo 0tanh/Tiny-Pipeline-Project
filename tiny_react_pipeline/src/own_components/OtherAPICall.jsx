@@ -1,12 +1,13 @@
 // import React, {useState} from "react"
 // import axios from "axios";
 
-export default function OtherAPICall({host, path, whatIDo}){
+export default function OtherAPICall({prod, path, whatIDo}){
     // const [data,setData]=useState({});
     
     const handleSubmit = () => {
         console.log("I'm bein' pressed I am")
-        const p = `${host}/${path}`
+        const host_url = prod?"https://tiny-pipeline-project.onrender.com":"http://127.0.0.1"
+        const p = `${host_url}/${path}`
         console.log(p)
         fetch(p)
         .then(

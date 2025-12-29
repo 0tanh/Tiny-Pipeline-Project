@@ -11,7 +11,7 @@ export default function NameAdder({prod}){
         const data = {
             "name": name
         }
-        const host_url = prod?"https://tiny-pipeline-project.onrender.com":"127.0.0.1"
+        const host_url = prod?"https://tiny-pipeline-project.onrender.com":"http://127.0.0.1"
         try {
             console.log(data);
             const response = await axios.post(`${host_url}/new_name`,data)

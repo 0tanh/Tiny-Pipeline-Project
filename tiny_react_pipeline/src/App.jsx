@@ -15,11 +15,11 @@ function App() {
     </div>
       
     <div>
-      <OtherAPICall host="" path="hw" whatIDo="Hello World"/>
+      <OtherAPICall prod={true} path="hw" whatIDo="Hello World"/>
     </div>
     
     <div>
-      <OtherAPICall host="" path="lastName" whatIDo="LastName"/>
+      <OtherAPICall prod={true} path="lastName" whatIDo="LastName"/>
     </div>
 
       
